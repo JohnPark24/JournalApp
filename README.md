@@ -2,7 +2,7 @@
 
 # Journal-App
 
-![Screenshot]([journalapp/journal.png](https://ibb.co/VY8DYwr))
+![Screenshot](https://i.ibb.co/hFvHFYh/Screenshot-2023-11-14-014025.png)
 
 ## Overview
 
