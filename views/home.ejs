@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gallery</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/styles/main.css" />
+</head>
+<body>
+    <%- include('partials/navbar')%>
+    <% card.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); %>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <% card.forEach(card => { %>
+                <div class="col-12 col-md-12 col-lg-8 mb-4">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="/images/<%= card.image %>" alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-title"><%= card.name %></h4>
+                            <% if (card.bio) { %>
+                                <p class="card-text"><%= card.bio %></p>
+                              <% } %>
+                              <% if (card.location) { %>
+                                <p class="card-text">@<%= card.location %></p>
+                              <% } %>
+                              <% if (card.birthDate) { %>
+                                <% const options = { year: 'numeric', month: 'long', day: 'numeric' }; %>
+                                <% const birthDate = new Date(card.birthDate); %>
+                                <% const formattedBirthDate = birthDate.toLocaleDateString('en-US', options); %>
+                                <p class="card-text">Date: <%= formattedBirthDate %></p>
+                                <% } %>
+                              <!-- <% if (card.birthDate) { %>
+                                <p class="card-text">Date: <%= card.birthDate %></p>
+                              <% } %> -->
+                            <p>
+                                <strong><%= card.owner.username %></strong>
+                            </p>
+                            <p class="card-text">
+                                Posted on: 
+                                <% const options = { year: 'numeric', month: 'long', day: 'numeric' }; %>
+                                <% const postDate = new Date(card.createdAt); %>
+                                <% const formattedDate = postDate.toLocaleDateString('en-US', options); %>
+                                <%= formattedDate %>
+                            </p>
+                        </div>
+                        <% if(currentUser && card.owner._id.equals(currentUser._id)) {%>
+                        <div class="card-footer">
+                            <a href="/edit/<%= card._id%>" class="btn btn-primary">Edit</a>
+                            <form action="/delete/<%= card._id%>" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            <% }) %>
+        </div>       
+    </div>  
+</body>
+</html>
